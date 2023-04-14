@@ -19,6 +19,13 @@ connect();
 
 // middlewear
 app.use(cors());
+app.use(express.json());
+
+// router
+const router = require("./Routes/userRoute");
+
+// routes
+app.use("/api/v1/user", router);
 
 // adding socket io
 

@@ -1,5 +1,8 @@
-import express from "express";
+const express = require("express");
+const { registerUser } = require("../Controller/user-contoller");
 
 const router = express.Router();
 
-router.get("/api/v1/register", registerUser);
+router.post("/register", registerUser);
+
+module.exports = router;
