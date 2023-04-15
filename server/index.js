@@ -22,10 +22,10 @@ app.use(cors());
 app.use(express.json());
 
 // router
-const router = require("./Routes/userRoute");
+const route = require("./Routes/userRoute");
 
 // routes
-app.use("/api/v1/user", router);
+app.use("/api/v1/user", route);
 
 // adding socket io
 

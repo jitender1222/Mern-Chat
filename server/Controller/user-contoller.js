@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 // for registering the user
 
 exports.registerUser = async (req, res) => {
@@ -9,7 +8,7 @@ exports.registerUser = async (req, res) => {
     const { name, email, password, avatar } = req.body;
 
     if (!name || !email || !password) {
-      res.status(401).json({
+      res.status(401).send({
         message: "All fields are required",
         success: false,
       });
@@ -19,9 +18,9 @@ exports.registerUser = async (req, res) => {
     const existingUser = await User.findOne({ email: email });
 
     if (existingUser) {
-      res.status(200).json({
-        message: "User found successfully",
-        success: true,
+      res.status(401).send({
+        message: "User already exist with this email",
+        success: false,
       });
     }
 
@@ -36,20 +35,25 @@ exports.registerUser = async (req, res) => {
       avatar,
     });
 
-    const token = jwt.sign({
-      name: newuser.name,
-      email: newuser.email,
-      avatar: newuser.avatar,
-      token,
-    });
+    const token = jwt.sign(
+      {
+        name: newuser.name,
+        email: newuser.email,
+        avatar: newuser.avatar,
+      },
+      "JWT_SECRET",
+      { expiresIn: "2h" }
+    );
 
-    res.status(201).json({
+    res.status(201).send({
       success: true,
       message: "User created successfully",
       newuser,
+      token,
     });
   } catch (error) {
-    res.status(401).json({
+    console.log(error);
+    res.status(401).send({
       message: "Error while registering the user",
       success: false,
       error: error,
@@ -64,7 +68,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(401).json({
+      res.status(401).send({
         success: false,
         message: "All fields required",
       });
@@ -75,7 +79,7 @@ exports.login = async (req, res) => {
     const userExist = await User.findOne({ email });
 
     if (!userExist) {
-      res.status(401).json({
+      res.status(401).send({
         message: "User not found check the email",
         success: false,
       });
@@ -86,7 +90,7 @@ exports.login = async (req, res) => {
     const compPassword = await bcrypt.compare(password, userExist.password);
 
     if (!compPassword) {
-      res.status(401).json({
+      res.status(401).send({
         message: "Password incorrect",
         success: false,
       });
@@ -98,27 +102,37 @@ exports.login = async (req, res) => {
       { expiresIn: "2d" }
     );
 
-    res.status(401).json({
+    res.status(401).send({
       message: "User login Successfully",
-      success: false,
+      success: true,
       userExist,
-      token,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      message: "error while creating a user",
+      success: false,
+    });
+  }
+};
 
-  //searching the user
+//searching the user
 
-  exports.searching = async (req, res) => {
+exports.searching = async (req, res) => {
+  try {
     const { search } = req.query;
+    console.log(search);
 
     const user = await User.find({
-      username: { $regex: search, $options: "i" },
+      username: { $regex: `${search}`, $options: "i" },
     }).select("username avatar _id email bio");
 
-    res.status(201).json({
+    res.status(201).send({
       message: "user found",
       success: true,
       user,
     });
-  };
+  } catch (error) {
+    console.log(error);
+  }
 };
