@@ -12,7 +12,7 @@ exports.createchats = async (req, res) => {
       });
     }
 
-    console.log("request", req.user.id);
+    console.log("request", req.user._id);
     console.log("userId", userId);
 
     // if chat is one to one
@@ -21,7 +21,7 @@ exports.createchats = async (req, res) => {
       userId,
 
       $and: [
-        { users: { $elemMatch: { $eq: req.user.id } } },
+        { users: { $elemMatch: { $eq: req.userId } } },
         { users: { $elemMatch: { $eq: userId } } },
       ],
     })

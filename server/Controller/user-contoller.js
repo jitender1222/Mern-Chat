@@ -42,7 +42,7 @@ exports.registerUser = async (req, res) => {
         email: newuser.email,
       },
       "JWT_SECRET",
-      { expiresIn: "2h" }
+      { expiresIn: "30d" }
     );
 
     res.status(201).json({

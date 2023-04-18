@@ -15,7 +15,7 @@ exports.protect = async (req, res, next) => {
       console.log("decode", decode);
 
       // req.user = await User.findById(decode.id).select("-password");
-      req.user = await User.findById(decode.id).select("-password");
+      req.user = await User.findById(decode.userId).select("-password");
       // req.user = { id: decode.userId };
       console.log(req.user);
 
