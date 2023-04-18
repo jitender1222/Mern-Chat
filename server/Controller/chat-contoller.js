@@ -12,42 +12,49 @@ exports.createchats = async (req, res) => {
       });
     }
 
+    console.log("request", req.user.id);
     console.log("userId", userId);
-    console.log("request", req.user._id);
 
     // if chat is one to one
     var chatExist = await Chat.find({
       isGroupChat: false,
+      userId,
 
       $and: [
-        { users: { $elemMatch: { $eq: req.user._id } } },
+        { users: { $elemMatch: { $eq: req.user.id } } },
         { users: { $elemMatch: { $eq: userId } } },
       ],
     })
       .populate("users", "-password")
       .populate("latestMessage");
 
+    console.log("success");
+    console.log("chatExist", chatExist);
     chatExist = await User.populate(chatExist, {
       path: "latestMessage.sender",
       select: "name avatar email _id",
     });
-
+    console.log("failed", chatExist);
     if (chatExist.length > 0) {
-      res.send(chatExist[0]);
+      res.status(200).send(chatExist[0]);
     } else {
       // created a new chat
       const createChat = await Chat.create({
         chatName: "sender",
         isGroupChat: false,
-        users: [req.user._id, userId],
+        users: [req.user.id, userId],
       });
 
-      const sendChat = await Chat.findOne({ id: createChat.id }).populate(
+      const sendChat = await Chat.findOne({ _id: createChat._id }).populate(
         "users",
         "-password"
       );
 
-      res.status(201).send(sendChat);
+      res.status(201).json({
+        message: "Chat created successfully",
+        success: true,
+        sendChat,
+      });
     }
   } catch (error) {
     console.log(error);

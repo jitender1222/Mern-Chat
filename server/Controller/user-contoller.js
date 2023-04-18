@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// for registering the user
 
+// for registering the user
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, avatar } = req.body;
@@ -37,17 +37,18 @@ exports.registerUser = async (req, res) => {
 
     const token = jwt.sign(
       {
+        userId: newuser._id,
         name: newuser.name,
         email: newuser.email,
-        avatar: newuser.avatar,
       },
       "JWT_SECRET",
       { expiresIn: "2h" }
     );
 
-    res.status(201).send({
+    res.status(201).json({
       success: true,
       message: "User created successfully",
+      _id: newuser._id,
       newuser,
       token,
     });
@@ -97,14 +98,15 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { name: userExist.name, email: userExist.email },
+      { userId: userExist._id, name: userExist.name, email: userExist.email },
       "JWT_SECRET",
       { expiresIn: "2d" }
     );
 
-    res.status(401).send({
+    res.status(200).send({
       message: "User login Successfully",
       success: true,
+      _id: userExist._id,
       userExist,
     });
   } catch (error) {

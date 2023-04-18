@@ -7,6 +7,7 @@ const {
 } = require("../Controller/user-contoller");
 const { createMessage } = require("../Controller/message-controller");
 const { createchats } = require("../Controller/chat-contoller");
+const { protect } = require("../middleware/auth");
 
 route.post("/register", registerUser);
 route.post("/login", login);
@@ -16,6 +17,6 @@ route.post("/login", login);
 route.post("/message", createMessage);
 
 // Chats
-route.post("/chats", createchats);
+route.post("/chats", protect, createchats);
 
 module.exports = route;
