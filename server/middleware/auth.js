@@ -9,16 +9,12 @@ exports.protect = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      console.log("token", token);
+
       // decode the token
       const decode = jwt.verify(token, "JWT_SECRET");
-      console.log("decode", decode);
 
-      // req.user = await User.findById(decode.id).select("-password");
       req.user = await User.findById(decode.userId).select("-password");
       // req.user = { id: decode.userId };
-      console.log(req.user);
-
       next();
     } catch (error) {
       console.log(error);
