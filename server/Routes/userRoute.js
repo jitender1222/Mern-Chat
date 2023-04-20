@@ -6,7 +6,11 @@ const {
   searching,
 } = require("../Controller/user-contoller");
 const { createMessage } = require("../Controller/message-controller");
-const { createchats, fetchChats } = require("../Controller/chat-contoller");
+const {
+  createchats,
+  fetchChats,
+  groupChats,
+} = require("../Controller/chat-contoller");
 const { protect } = require("../middleware/auth");
 
 route.post("/register", registerUser);
@@ -19,5 +23,6 @@ route.post("/message", createMessage);
 // Chats
 route.post("/chats", protect, createchats);
 route.get("/fetchChats", protect, fetchChats);
+route.post("/group", protect, groupChats);
 
 module.exports = route;
