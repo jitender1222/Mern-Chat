@@ -12,6 +12,7 @@ const {
   groupChats,
   renameGroup,
   addUser,
+  removeUser,
 } = require("../Controller/chat-contoller");
 const { protect } = require("../middleware/auth");
 
@@ -28,5 +29,6 @@ route.get("/fetchChats", protect, fetchChats);
 route.post("/group", protect, groupChats);
 route.post("/rename", protect, renameGroup);
 route.post("/addUser", protect, addUser);
+route.post("/removeUser", protect, removeUser);
 
 module.exports = route;
