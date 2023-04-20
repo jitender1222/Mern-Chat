@@ -140,3 +140,43 @@ exports.groupChats = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.renameGroup = async (req, res) => {
+  const { chatId, newName } = req.body;
+
+  const rename = await Chat.findByIdAndUpdate(
+    chatId,
+    { chatName: newName },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!rename) {
+    res.status(400).json({
+      message: "Group not found with this id",
+      succcess: false,
+    });
+  } else {
+    res.send(rename);
+  }
+};
+
+exports.addUser = async (req, res) => {
+  const { userId, groupId } = req.body;
+
+  const added = Chat.findByIdAndUpdate(
+    groupId,
+    { $push: { users: userId } },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!added) {
+    res.status(401);
+    throw new Error("chat not found");
+  } else {
+    res.json(added);
+  }
+};
