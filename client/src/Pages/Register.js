@@ -1,12 +1,34 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleEvent = (e) => {
+  const handleEvent = async (e) => {
     e.preventDefault();
+    try {
+      let data = await axios.post("/api/v1/user/register", {
+        name: name,
+        email: email,
+        password: password,
+      });
+      console.log("data", data);
+
+      if (data) {
+        alert("User registered successfully");
+        navigate("/login");
+      }
+      if (data.success === false) {
+        alert("User is already registered Please Login to continue");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <form onSubmit={handleEvent}>
@@ -28,6 +50,7 @@ const Register = () => {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
               className="px-4 py-2 rounded-md w-full border-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
           </div>
@@ -44,6 +67,7 @@ const Register = () => {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
               className="px-4 py-2 rounded-md w-full border-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
           </div>
@@ -60,6 +84,7 @@ const Register = () => {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               className="px-4 py-2 rounded-md w-full border-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
           </div>
