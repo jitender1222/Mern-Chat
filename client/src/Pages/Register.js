@@ -20,11 +20,8 @@ const Register = () => {
 
       if (data) {
         alert("User registered successfully");
-        navigate("/login");
-      }
-      if (data.success === false) {
-        alert("User is already registered Please Login to continue");
-        navigate("/login");
+        navigate("/chat");
+        localStorage.setItem("userInfo", JSON.stringify(data));
       }
     } catch (error) {
       console.log(error);
@@ -93,6 +90,14 @@ const Register = () => {
             className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300"
           >
             Sign Up
+          </button>
+          <br />
+          <button
+            type="submit"
+            className="px-4 py-2 mt-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-300"
+            onClick={() => navigate("/login")}
+          >
+            If Registered ? Login
           </button>
         </div>
       </div>
