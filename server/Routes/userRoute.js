@@ -18,7 +18,7 @@ const { protect } = require("../middleware/auth");
 
 route.post("/register", registerUser);
 route.post("/login", login);
-// route.get("/search", searching);
+route.get("/", searching);
 
 // messages
 route.post("/message", createMessage);
