@@ -12,7 +12,6 @@ const ChatProvider = ({ children }) => {
     setNewUser(userInfo);
 
     if (!userInfo) {
-      console.log("insiide user info");
       navigate("/");
     }
   }, []);
