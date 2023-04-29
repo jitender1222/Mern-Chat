@@ -122,33 +122,18 @@ exports.login = async (req, res) => {
 
 exports.searching = async (req, res) => {
   try {
-    // const search = req.query.search
-    //   ? {
-    //       $or: [
-    //         { name: { $in: [new RegExp(req.query.search, "i")] } },
-    //         { email: { $in: [new RegExp(req.query.search, "i")] } },
-    //       ],
-    //     }
-    //   : {};
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
 
-    const searchUser = async (req, res) => {
-      const { search } = req.query;
-
-      const user = await User.find({
-        username: { $regex: search, $options: "i" },
-      }).select("username avatar _id email bio");
-
-      res.json(user);
-    };
+    const users = await User.find(keyword);
+    res.send(users);
   } catch (error) {
-    // const user = await User.find({ search });
-    // res.send(user);
-
-    // res.status(201).send({
-    //   message: "user found",
-    //   success: true,
-    //   user,
-    // });
     console.log(error);
   }
 };

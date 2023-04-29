@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  // const [user, setNewUser] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const Login = () => {
         alert("User registered successfully");
       }
       localStorage.setItem("userInfo", JSON.stringify(data));
+      // setNewUser(userInfo);
       navigate("/chat");
     } catch (error) {
       console.log(error);
