@@ -8,26 +8,29 @@ const SideDrawer = () => {
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [showSearchUser, setShowSearchUser] = useState(false);
   const { user } = ChatState();
-  console.log(user);
   const navigate = useNavigate();
 
   const ref = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setShowUserProfile(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (ref.current && !ref.current.contains(event.target)) {
+  //       setShowUserProfile(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [ref]);
 
   //   search User click
   const handleSearchUserClick = () => {
-    setShowSearchUser(true);
+    setShowSearchUser(!showSearchUser);
+  };
+
+  const handleCloseSearchUser = () => {
+    setShowSearchUser(!showSearchUser);
   };
 
   //   show profile
@@ -48,6 +51,12 @@ const SideDrawer = () => {
     <>
       <div className="flex justify-between mt-2 shadow-xl p-4">
         {/* search */}
+        {showSearchUser && (
+          <SearchUserComponent
+            onClose={handleCloseSearchUser}
+            showSearchUser={showSearchUser}
+          />
+        )}
         <div className="flex cursor-pointer" onClick={handleSearchUserClick}>
           <div className="ml-2 text-2xl ">
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -55,8 +64,8 @@ const SideDrawer = () => {
           <div className="ml-2 text-lg">
             <p>Search User</p>
           </div>
-          {showSearchUser && <SearchUserComponent />}
         </div>
+
         {/* heading */}
         <div className="text-3xl text-blue-400 font-bold">
           <h1>ChatLoom</h1>
