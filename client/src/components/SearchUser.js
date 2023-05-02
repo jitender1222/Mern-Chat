@@ -66,7 +66,7 @@ function SearchUserComponent({ onClose }) {
           />
         </div>
         {loading ? (
-          <ChatLoading users={users} />
+          <ChatLoading key={users.id} users={users} />
         ) : (
           users?.map((user) => <UserListItem key={user._id} user={user} />)
         )}
