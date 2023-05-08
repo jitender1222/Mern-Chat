@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,17 +12,37 @@ const Register = () => {
   const handleEvent = async (e) => {
     e.preventDefault();
     try {
-      let data = await axios.post("/api/v1/user/register", {
-        name: name,
-        email: email,
-        password: password,
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      let data = await axios.post(
+        "/api/v1/user/register",
+        {
+          name: name,
+          email: email,
+          password: password,
+        },
+        config
+      );
+
+      const token = data.data.token;
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      toast({
+        title: "Registration Successfull",
+        status: "Success",
+        duration: 5000,
+        position: "bottom",
       });
-      console.log("data", data);
+      console.log("data inside the register", data);
 
       if (data) {
         alert("User registered successfully");
-        navigate("/chat");
         localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/chat");
       }
     } catch (error) {
       console.log(error);

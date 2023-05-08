@@ -3,11 +3,27 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import ChatLoading from "./ChatLoading";
 import UserListItem from "./UserListItem";
+import { ChatState } from "../context/ChatProvider";
 
 function SearchUserComponent({ onClose }) {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { user, setSelectedChat, chats, setChats } = ChatState();
+
+  const accessChat = (id) => {
+    try {
+      setLoading(true);
+      const { data } = axios.post("/api/v1/fetchChats", { id });
+      setSelectedChat(data);
+      setLoading(false);
+    } catch (error) {
+      toast.error("failed to fetch the data");
+      console.log(error);
+    }
+  };
+
   const handleButton = async () => {
     if (!search) {
       toast.error("Please enter something!");
@@ -34,7 +50,8 @@ function SearchUserComponent({ onClose }) {
 
       {/* Search Box */}
       <div
-        className="fixed inset-y-0 left-0 flex flex-col w-72 px-4 py-6 bg-gray-100 shadow-lg z-40 transform transition-transform"
+        className="fixed inset-y-0 left-0 flex flex-col w-72 px-4 py-6 bg-gray-100 shadow-lg z-40 
+        transform transition-transform overflow-y-auto overflow-x-hidden scroll-smooth	"
         style={{ transform: "translateX(0%)" }}
       >
         <input
@@ -68,7 +85,13 @@ function SearchUserComponent({ onClose }) {
         {loading ? (
           <ChatLoading key={users.id} users={users} />
         ) : (
-          users?.map((user) => <UserListItem key={user._id} user={user} />)
+          users?.map((user) => (
+            <UserListItem
+              key={user._id}
+              user={user}
+              handleChats={() => accessChat(user._id)}
+            />
+          ))
         )}
       </div>
     </>

@@ -17,12 +17,11 @@ const {
 const { protect } = require("../middleware/auth");
 
 route.post("/register", registerUser);
-route.post("/login", login);
+route.post("/login", protect, login);
 route.get("/", searching);
 
 // messages
 route.post("/message", createMessage);
-
 // Chats
 route.post("/chats", protect, createchats);
 route.get("/fetchChats", protect, fetchChats);

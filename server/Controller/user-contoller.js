@@ -38,11 +38,9 @@ exports.registerUser = async (req, res) => {
     const token = jwt.sign(
       {
         userId: newuser._id,
-        name: newuser.name,
-        email: newuser.email,
       },
       "JWT_SECRET",
-      { expiresIn: "30d" }
+      { expiresIn: "45d" }
     );
 
     res.status(201).json({
@@ -52,6 +50,7 @@ exports.registerUser = async (req, res) => {
       newuser,
       token,
     });
+    console.log("token iside the register", token);
   } catch (error) {
     console.log(error);
     res.status(401).send({
@@ -100,14 +99,16 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { userId: userExist._id, name: userExist.name, email: userExist.email },
       "JWT_SECRET",
-      { expiresIn: "2d" }
+      { expiresIn: "30d" }
     );
+    console.log("token iside the login", token);
 
     res.status(200).send({
       message: "User login Successfully",
       success: true,
       _id: userExist._id,
       userExist,
+      token,
     });
   } catch (error) {
     console.log(error);

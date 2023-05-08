@@ -12,15 +12,25 @@ const Login = () => {
   const handleEvent = async (e) => {
     e.preventDefault();
     try {
-      let data = await axios.post("/api/v1/user/login", {
-        email: email,
-        password: password,
-      });
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      let data = await axios.post(
+        "/api/v1/user/login",
+        {
+          email: email,
+          password: password,
+        },
+        config
+      );
 
       if (data) {
         // alert("User registered successfully");
-        console.log("inside the data", data);
+        console.log("inside the login data", data);
         navigate("/chat");
+        console.log("config", config);
       }
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {

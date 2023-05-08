@@ -1,13 +1,15 @@
 const Chat = require("../models/chat");
 const User = require("../models/user");
 
+// create or fetch one to one chats
+
 exports.createchats = async (req, res) => {
   try {
     const { userId } = req.body;
 
     console.log("request.id", req.user.id);
     console.log("request._id", req.user._id);
-    console.log("userId", userId);
+    // console.log("userId", userId);
 
     if (!userId) {
       res.status(401).send({
@@ -75,6 +77,9 @@ exports.createchats = async (req, res) => {
 // fetching the chats
 
 exports.fetchChats = async (req, res) => {
+  // console.log("request.id", req.user.id);
+  // console.log("request._id", req.user._id);
+  // console.log("userId", userId);
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
