@@ -13,28 +13,36 @@ function SearchUserComponent({ onClose }) {
   const { user, setSelectedChat, chats, setChats } = ChatState();
 
   const accessChat = (id) => {
-    try {
-      setLoading(true);
-      const { data } = axios.post("/api/v1/fetchChats", { id });
-      setSelectedChat(data);
-      setLoading(false);
-    } catch (error) {
-      toast.error("failed to fetch the data");
-      console.log(error);
-    }
+    // try {
+    //   setLoading(true);
+    //   const { data } = axios.post("/api/v1/fetchChats", { id });
+    //   setSelectedChat(data);
+    //   setLoading(false);
+    // } catch (error) {
+    //   toast.error("failed to fetch the data");
+    //   console.log(error);
+    // }
   };
 
+  console.log("inside the search user", user);
+
   const handleButton = async () => {
+    console.log("isnide the handle button line 28");
     if (!search) {
       toast.error("Please enter something!");
     }
 
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/user?search=${search}`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user?.data?.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/v1/user?search=${search}`, config);
       setUsers(data);
       setLoading(false);
-      console.log(data);
+      console.log("inside the search user line 42", data);
     } catch (error) {
       console.log(error);
       toast.error("failed");

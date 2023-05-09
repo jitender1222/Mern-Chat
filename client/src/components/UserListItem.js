@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 
-const UserListItem = ({ user }) => {
+const UserListItem = ({ user, handleChats }) => {
   return (
     <>
       <div className="flex flex-col mt-6 rounded-lg p-2 cursor-pointer bg-blue-400">

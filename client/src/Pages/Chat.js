@@ -6,7 +6,7 @@ import ChatBox from "../components/ChatBox";
 
 const Chat = () => {
   const { user } = ChatState();
-  console.log("user id", user?.data?._id);
+  console.log("user id inside the Chat", user?.data?._id);
 
   return (
     <>

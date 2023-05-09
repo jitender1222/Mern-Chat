@@ -40,7 +40,7 @@ exports.registerUser = async (req, res) => {
         userId: newuser._id,
       },
       "JWT_SECRET",
-      { expiresIn: "45d" }
+      { expiresIn: "30d" }
     );
 
     res.status(201).json({

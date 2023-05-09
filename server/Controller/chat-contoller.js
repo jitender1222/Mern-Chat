@@ -77,9 +77,7 @@ exports.createchats = async (req, res) => {
 // fetching the chats
 
 exports.fetchChats = async (req, res) => {
-  // console.log("request.id", req.user.id);
-  // console.log("request._id", req.user._id);
-  // console.log("userId", userId);
+  console.log("req inside the chat contoller line 80", req.user.id);
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
