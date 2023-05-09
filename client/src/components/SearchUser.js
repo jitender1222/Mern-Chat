@@ -12,19 +12,28 @@ function SearchUserComponent({ onClose }) {
 
   const { user, setSelectedChat, chats, setChats } = ChatState();
 
-  const accessChat = (id) => {
-    // try {
-    //   setLoading(true);
-    //   const { data } = axios.post("/api/v1/fetchChats", { id });
-    //   setSelectedChat(data);
-    //   setLoading(false);
-    // } catch (error) {
-    //   toast.error("failed to fetch the data");
-    //   console.log(error);
-    // }
-  };
+  const accessChat = async (userId) => {
+    console.log("inside searhc user line 16", userId);
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user?.data?.token}`,
+        },
+      };
+      const data = await axios.post("/api/v1/user/chats", { userId }, config);
+      console.log("lline 26 searhv user", config);
+      console.log("inside searhc user line 27", data);
 
-  console.log("inside the search user", user);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoading(false);
+    } catch (error) {
+      toast.error("failed to fetch the data");
+      console.log(error);
+    }
+  };
 
   const handleButton = async () => {
     console.log("isnide the handle button line 28");
@@ -42,11 +51,12 @@ function SearchUserComponent({ onClose }) {
       const { data } = await axios.get(`/api/v1/user?search=${search}`, config);
       setUsers(data);
       setLoading(false);
-      console.log("inside the search user line 42", data);
+      console.log("inside the search user line 43", data);
     } catch (error) {
       console.log(error);
       toast.error("failed");
     }
+    console.log("users 59 search user", users);
   };
   return (
     <>

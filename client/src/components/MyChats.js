@@ -4,34 +4,33 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const MyChats = () => {
-  return <>HEllo wlrld</>;
-  //   const [loggedUser, setLoggedUser] = useState();
-  //   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  //   console.log("inside the MYchat ", user);
+  const [loggedUser, setLoggedUser] = useState();
+  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  console.log("inside the MYchat line 9", user);
 
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${user.token}`,
-  //     },
-  //   };
-  //   console.log("user token", user?.data?.token);
-  //   console.log("user user", user);
+  const fetchData = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user?.data?.token}`,
+        },
+      };
+      console.log("config");
+      console.log(config);
+      const { data } = await axios.get("/api/v1/user/fetchChats", config);
+      console.log("inside the Mychats line 22", data);
+      setChats(data);
+    } catch (error) {
+      toast("failed");
+    }
+  };
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const { data } = await axios.get("/api/v1/user/fetchChats");
-  //       console.log(data);
-  //       setChats(data);
-  //     } catch (error) {
-  //       toast("failed");
-  //     }
-  //   };
+  useEffect(() => {
+    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+    fetchData();
+  }, []);
 
-  //   useEffect(() => {
-  //     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
-  //     fetchData();
-  //   }, []);
-  //   return <div>MyChats</div>;
-  // };
+  return <div>My chhats</div>;
 };
 export default MyChats;

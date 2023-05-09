@@ -3,10 +3,13 @@ const jwt = require("jsonwebtoken");
 
 exports.protect = async (req, res, next) => {
   let token;
+  console.log(6);
+  console.log(req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization?.startsWith("Bearer")
   ) {
+    console.log(11);
     try {
       token = req.headers.authorization.split(" ")[1];
 
@@ -14,7 +17,9 @@ exports.protect = async (req, res, next) => {
       const decode = jwt.verify(token, "JWT_SECRET");
 
       req.user = await User.findById(decode.userId).select("-password");
-      console.log("heloo requ", req.user);
+      console.log("heloo requ line 17 inside auth", req.user);
+      console.log("token", token);
+      console.log("headers", req.headers.authorization);
       // req.user = { id: decode.userId };
       next();
     } catch (error) {

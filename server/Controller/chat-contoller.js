@@ -9,9 +9,10 @@ exports.createchats = async (req, res) => {
 
     console.log("request.id", req.user.id);
     console.log("request._id", req.user._id);
-    // console.log("userId", userId);
+    console.log("userId", userId);
 
     if (!userId) {
+      // console.log(15);
       res.status(401).send({
         message: "User not found",
         success: false,
@@ -77,7 +78,10 @@ exports.createchats = async (req, res) => {
 // fetching the chats
 
 exports.fetchChats = async (req, res) => {
-  console.log("req inside the chat contoller line 80", req.user.id);
+  if (!req.user) {
+    throw new Error("User not authenticated");
+  }
+  // console.log("req inside the chat contoller line 80", req.user);
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
