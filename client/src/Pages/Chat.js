@@ -6,12 +6,11 @@ import ChatBox from "../components/ChatBox";
 
 const Chat = () => {
   const { user } = ChatState();
-  console.log("user id inside the Chat", user?.data?._id);
 
   return (
     <>
       <div>{user && <SideDrawer />}</div>
-      <div className="flex justify-between mt-4">
+      <div className="flex justify-between">
         {user && <MyChats />}
         {user && <ChatBox />}
       </div>
