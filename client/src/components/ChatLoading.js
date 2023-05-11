@@ -3,10 +3,10 @@ import React from "react";
 const ChatLoading = ({ users }) => {
   return (
     <>
-      {users.map((key) => (
+      {users.map((index) => (
         <div
-          key={key}
-          className="bg-gray-200 animate-pulse rounded-md h-4 w-full mt-4"
+          key={index}
+          className="bg-gray-400 animate-pulse rounded-md h-4 w-full mt-8"
         ></div>
       ))}
     </>

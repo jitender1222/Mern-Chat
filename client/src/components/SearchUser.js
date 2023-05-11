@@ -4,13 +4,45 @@ import { ToastContainer, toast } from "react-toastify";
 import ChatLoading from "./ChatLoading";
 import UserListItem from "./UserListItem";
 import { ChatState } from "../context/ChatProvider";
+import { useNavigate } from "react-router-dom";
 
 function SearchUserComponent({ onClose }) {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { user, setSelectedChat, chats, setChats } = ChatState();
+
+  const handleButton = async () => {
+    if (!search) {
+      toast.error("Please enter something!", {
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        pauseOnHover: "false",
+      });
+    } else {
+      try {
+        setLoading(true);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user?.data?.token}`,
+          },
+        };
+        const { data } = await axios.get(
+          `/api/v1/user?search=${search}`,
+          config
+        );
+        setUsers(data);
+        setLoading(false);
+        console.log("inside the search user line 58", data);
+      } catch (error) {
+        console.log(error);
+        toast.error("failed");
+      }
+    }
+  };
 
   const accessChat = async (userId) => {
     console.log("inside searhc user line 16", userId);
@@ -22,9 +54,8 @@ function SearchUserComponent({ onClose }) {
           Authorization: `Bearer ${user?.data?.token}`,
         },
       };
-      const data = await axios.post("/api/v1/user/chats", { userId }, config);
-      console.log("lline 26 searhv user", config);
-      console.log("inside searhc user line 27", data);
+      const data = await axios.post(`/api/v1/user/chats`, { userId }, config);
+      console.log("inside searhc user line 26", data);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
@@ -33,30 +64,6 @@ function SearchUserComponent({ onClose }) {
       toast.error("failed to fetch the data");
       console.log(error);
     }
-  };
-
-  const handleButton = async () => {
-    console.log("isnide the handle button line 28");
-    if (!search) {
-      toast.error("Please enter something!");
-    }
-
-    try {
-      setLoading(true);
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user?.data?.token}`,
-        },
-      };
-      const { data } = await axios.get(`/api/v1/user?search=${search}`, config);
-      setUsers(data);
-      setLoading(false);
-      console.log("inside the search user line 43", data);
-    } catch (error) {
-      console.log(error);
-      toast.error("failed");
-    }
-    console.log("users 59 search user", users);
   };
   return (
     <>
@@ -111,6 +118,7 @@ function SearchUserComponent({ onClose }) {
             />
           ))
         )}
+        {/* {loading && <ChatLoading users={users} />} */}
       </div>
     </>
   );
