@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
+import GroupChatModel from "./GroupChatModel";
+import Model from "./Model";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  const [model, SetModel] = useState(false);
   console.log("inside the MYchat line 9", chats);
   // console.log("inside the MYchat line selected chat", selectedChat);
   // console.log("inside the MYchat line set selected chat", setSelectedChat);
@@ -34,6 +37,10 @@ const MyChats = () => {
     return users[0]._id === loggedUser._id ? users[0]?.name : users[1]?.name;
   };
 
+  const accessModel = () => {
+    SetModel(true);
+  };
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchData();
@@ -45,11 +52,14 @@ const MyChats = () => {
       <div className="flex justify-between">
         <h2 className="text-blue-600 font-bold text-2xl">My Chats</h2>
 
-        <div>
-          <button className="bg-blue-600 p-2 text-white rounded-lg hover:bg-blue-900">
-            New Group Chat
-          </button>
+        <div onClick={accessModel}>
+          <GroupChatModel>
+            <button className="bg-blue-600 p-2 font-semibold text-white rounded-lg hover:bg-yellow-200 hover:text-black">
+              New Group Chat
+            </button>
+          </GroupChatModel>
         </div>
+        {model ? <Model /> : " "}
       </div>
       <div className="flex flex-col p-3 rounded-xl mt-8 bg-blue-600">
         {chats ? (
