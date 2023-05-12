@@ -4,12 +4,24 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import GroupChatModel from "./GroupChatModel";
 import Model from "./Model";
-
+import { useRef } from "react";
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [model, SetModel] = useState(false);
+  const modalRef = useRef();
   console.log("inside the MYchat line 9", chats);
+
+  useEffect(() => {
+    function handler(event) {
+      if (!modalRef.current?.contains(event.target)) {
+        SetModel(false);
+      }
+    }
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, []);
+
   // console.log("inside the MYchat line selected chat", selectedChat);
   // console.log("inside the MYchat line set selected chat", setSelectedChat);
 
@@ -52,14 +64,14 @@ const MyChats = () => {
       <div className="flex justify-between">
         <h2 className="text-blue-600 font-bold text-2xl">My Chats</h2>
 
-        <div onClick={accessModel}>
+        <div onClick={accessModel} ref={modalRef}>
           <GroupChatModel>
             <button className="bg-blue-600 p-2 font-semibold text-white rounded-lg hover:bg-yellow-200 hover:text-black">
               New Group Chat
             </button>
           </GroupChatModel>
         </div>
-        {model ? <Model /> : " "}
+        {model && <Model />}
       </div>
       <div className="flex flex-col p-3 rounded-xl mt-8 bg-blue-600">
         {chats ? (
