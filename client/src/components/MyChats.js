@@ -12,16 +12,6 @@ const MyChats = () => {
   const modalRef = useRef();
   console.log("inside the MYchat line 9", chats);
 
-  useEffect(() => {
-    function handler(event) {
-      if (!modalRef.current?.contains(event.target)) {
-        SetModel(false);
-      }
-    }
-    window.addEventListener("click", handler);
-    return () => window.removeEventListener("click", handler);
-  }, []);
-
   // console.log("inside the MYchat line selected chat", selectedChat);
   // console.log("inside the MYchat line set selected chat", setSelectedChat);
 
@@ -50,7 +40,7 @@ const MyChats = () => {
   };
 
   const accessModel = () => {
-    SetModel(true);
+    SetModel(!model);
   };
 
   useEffect(() => {
@@ -59,14 +49,30 @@ const MyChats = () => {
     console.log("inside user user", user);
   }, []);
 
+  // useEffect(() => {
+  //   function handler(event) {
+  //     const target = event.target;
+  //     if (!modalRef.current?.contains(target) && target !== modalRef.current) {
+  //       SetModel(false);
+  //     }
+  //   }
+
+  //   window.addEventListener("click", handler);
+  //   return () => window.removeEventListener("click", handler);
+  // }, []);
+
   return (
     <div className="bg-green-300 w-[460px] h-[90vh] rounded-lg flex flex-col p-4">
       <div className="flex justify-between">
         <h2 className="text-blue-600 font-bold text-2xl">My Chats</h2>
 
-        <div onClick={accessModel} ref={modalRef}>
+        <div>
           <GroupChatModel>
-            <button className="bg-blue-600 p-2 font-semibold text-white rounded-lg hover:bg-yellow-200 hover:text-black">
+            <button
+              className="bg-blue-600 p-2 font-semibold text-white rounded-lg hover:bg-yellow-200 hover:text-black"
+              onClick={accessModel}
+              // ref={modalRef}
+            >
               New Group Chat
             </button>
           </GroupChatModel>
@@ -93,7 +99,7 @@ const MyChats = () => {
             ))}
           </div>
         ) : (
-          <div>Loading ...</div>
+          <div className="bg-gray-300 border-black text-5xl ">Loading ...</div>
         )}
       </div>
     </div>
