@@ -4,8 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import GroupChatModel from "./GroupChatModel";
 import Model from "./Model";
+import { getSender } from "../config/getSender";
 // import { useRef } from "react";
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [model, SetModel] = useState(false);
@@ -31,14 +32,6 @@ const MyChats = () => {
     }
   };
 
-  const getSender = (loggedUser, users) => {
-    if (!users || users.length === 0) {
-      console.log("users is empty");
-      return "";
-    }
-    return users[0]._id === loggedUser._id ? users[0]?.name : users[1]?.name;
-  };
-
   const accessModel = () => {
     SetModel(!model);
   };
@@ -47,7 +40,7 @@ const MyChats = () => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchData();
     console.log("inside user user", user);
-  }, []);
+  }, [fetchAgain]);
 
   // useEffect(() => {
   //   function handler(event) {
