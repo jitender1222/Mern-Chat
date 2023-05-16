@@ -6,11 +6,12 @@ const UserItem = ({ user, handleFunction }) => {
   return (
     <>
       <div
-        className="w-24 text-center font-serif font-medium bg-blue-400 cursor-pointer p-2 mt-4 rounded-xl hover:bg-yellow-200 flex"
+        className="w-24 font-serif font-medium bg-blue-400 cursor-pointer p-2 mt-4 rounded-xl hover:bg-yellow-200 flex justify-around"
         onClick={handleFunction}
       >
-        <div style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+        <div className="capitalize">
           {user.name}
+          <span className="ml-2">❌</span>
         </div>
       </div>
     </>

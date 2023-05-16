@@ -97,17 +97,18 @@ exports.fetchChats = async (req, res) => {
 // group Chats
 
 exports.groupChats = async (req, res) => {
-  if (!req.body.users || !req.body.name) {
-    res.status(401).json({
+  if (!req.body.name || !req.body.users) {
+    return res.status(400).send({
       message: "All fields are required",
       success: false,
     });
   }
 
   var users = JSON.parse(req.body.users);
+  console.log("users", users);
 
   if (users.length < 2) {
-    return res.status(401).json({
+    return res.status(400).send({
       message: "More then 2 users are required to form a group chat",
       success: false,
     });
@@ -127,11 +128,12 @@ exports.groupChats = async (req, res) => {
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
 
-    res.status(200).json({
-      message: "Groupt Chat created successfully",
-      succcess: true,
-      fullGroupChat,
-    });
+    // return res.status(200).json({
+    //   message: "Groupt Chat created successfully",
+    //   succcess: true,
+    //   fullGroupChat,
+    // });
+    res.status(200).json(fullGroupChat);
   } catch (error) {
     console.log(error);
   }

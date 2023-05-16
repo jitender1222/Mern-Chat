@@ -6,16 +6,20 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import HomePage from "./Pages/HomePage";
 import Chat from "./Pages/Chat";
+import { ToastContainer } from "react-toastify";
 SocketIo.connect("http://localhost:4000");
 
 function App() {
   return (
-    <Routes className="App">
-      <Route path="/" element={<HomePage />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/chat" element={<Chat />} />
-    </Routes>
+    <>
+      <Routes className="App">
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
+      <ToastContainer />
+    </>
   );
 }
 

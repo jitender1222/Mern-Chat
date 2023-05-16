@@ -4,12 +4,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import GroupChatModel from "./GroupChatModel";
 import Model from "./Model";
-import { useRef } from "react";
+// import { useRef } from "react";
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [model, SetModel] = useState(false);
-  const modalRef = useRef();
+  // const modalRef = useRef();
   console.log("inside the MYchat line 9", chats);
 
   // console.log("inside the MYchat line selected chat", selectedChat);

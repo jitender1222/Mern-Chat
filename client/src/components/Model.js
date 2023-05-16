@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import UserListItem from "./UserListItem";
-// import UserItem from "./UserItem";
+import "react-toastify/dist/ReactToastify.css";
 import UserItem from "./UserItem";
 
 const Model = () => {
-  const { user } = ChatState();
-  const [name, setName] = useState();
+  const { user, setChats, chats } = ChatState();
+  // const [name, setName] = useState();
   const [addUsers, setAddUsers] = useState([]);
   const [searchUser, setSearchUser] = useState([]);
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState();
   const [loading, setLoading] = useState(false);
 
-  console.log("name", name);
+  console.log("user", user);
   console.log("adduser", addUsers);
 
   const handleSearch = async (query) => {
@@ -53,11 +53,76 @@ const Model = () => {
 
   console.log("search User", searchUser);
 
-  const handleSubmit = () => {
-    console.log("create a chat");
+  const handleSubmit = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.data?.token}`,
+      },
+    };
+    if (!groupChatName) {
+      toast.error("Please put your group name!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else if (!searchUser) {
+      toast.error("Add Users also !", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    console.log("chat grp name", groupChatName);
+    var users = JSON.stringify(searchUser.map((u) => u._id));
+    console.log("users", users);
+    try {
+      const { data } = await axios.post(
+        "/api/v1/user/group",
+        {
+          name: groupChatName,
+          users: JSON.stringify(searchUser.map((u) => u._id)),
+        },
+        config
+      );
+      console.log("data for group", data);
+      setChats([data, ...chats]);
+
+      toast.success("Group created successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
-  const handleDelete = ({ user }) => {
-    console.log("create a chat", user);
+  const handleDelete = (user) => {
+    setSearchUser(searchUser.filter((selUser) => selUser._id !== user._id));
   };
   return (
     <>
