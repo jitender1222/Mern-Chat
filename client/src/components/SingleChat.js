@@ -2,10 +2,11 @@ import React from "react";
 import { ChatState } from "../context/ChatProvider";
 import { getSender } from "../config/getSender";
 import ProfileModel from "./ProfileModel";
-import { getSenderFull } from "../config/getSender";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
+  // console.log("single chat ", user);
+  // console.log("single chat selected chat", selectedChat);
   return (
     <>
       <div>
@@ -14,7 +15,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {!selectedChat.isGroupChat ? (
               <div className="flex justify-between">
                 {getSender(user, selectedChat.users)}
-                <ProfileModel user={getSenderFull(user, selectedChat.user)} />
+                <ProfileModel />
               </div>
             ) : (
               <div>{selectedChat.chatName.toUpperCase()}</div>
