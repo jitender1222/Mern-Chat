@@ -81,7 +81,7 @@ const MyChats = ({ fetchAgain }) => {
                 className={`cursor-pointer mt-2 p-4 rounded-md hover:bg-yellow-200 ${
                   selectedChat === chat ? "bg-gray-200" : "bg-green-300"
                 }`}
-                key={chat.id}
+                key={chat._id}
               >
                 <div>
                   {!chat.isGroupChat

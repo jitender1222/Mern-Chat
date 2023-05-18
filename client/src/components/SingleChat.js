@@ -2,6 +2,7 @@ import React from "react";
 import { ChatState } from "../context/ChatProvider";
 import { getSender } from "../config/getSender";
 import ProfileModel from "./ProfileModel";
+import GroupModelUpdate from "./GroupModelUpdate";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
@@ -18,7 +19,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <ProfileModel />
               </div>
             ) : (
-              <div>{selectedChat.chatName.toUpperCase()}</div>
+              <div className="flex justify-between">
+                {selectedChat.chatName.toUpperCase()}
+                <GroupModelUpdate
+                  fetchAgain={fetchAgain}
+                  setFetchAgain={setFetchAgain}
+                />
+              </div>
             )}
           </div>
         ) : (

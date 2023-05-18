@@ -26,8 +26,8 @@ route.post("/message", createMessage);
 route.post("/chats", protect, createchats);
 route.get("/fetchChats", protect, fetchChats);
 route.post("/group", protect, groupChats);
-route.post("/rename", protect, renameGroup);
-route.post("/addUser", protect, addUser);
+route.put("/rename", protect, renameGroup);
+route.put("/addUser", protect, addUser);
 route.post("/removeUser", protect, removeUser);
 
 module.exports = route;

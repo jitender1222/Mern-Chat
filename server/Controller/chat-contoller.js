@@ -174,7 +174,7 @@ exports.addUser = async (req, res) => {
     res.status(401);
     throw new Error("User not found");
   } else {
-    res.json(added);
+    res.send(added);
   }
 };
 exports.removeUser = async (req, res) => {
