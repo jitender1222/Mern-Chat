@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ChatLoading from "./ChatLoading";
 import "react-toastify/dist/ReactToastify.css";
 import UserListItem from "./UserListItem";
+import UserItem from "./UserItem";
 // import { getSender, getSenderFull } from "../config/getSender";
 
 const GroupModelUpdate = ({ fetchAgain, setFetchAgain }) => {
@@ -124,6 +125,10 @@ const GroupModelUpdate = ({ fetchAgain, setFetchAgain }) => {
       console.log(error);
     }
   };
+
+  const handleRemove = () => {
+    console.log("run");
+  };
   return (
     <>
       <div className="cursor-pointer" onClick={handleInfo}>
@@ -186,6 +191,7 @@ const GroupModelUpdate = ({ fetchAgain, setFetchAgain }) => {
               </div>
             </div>
           </div>
+
           {loading ? (
             <div className="flex flex-col">
               <ChatLoading key={users.id} users={users} />

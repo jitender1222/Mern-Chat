@@ -5,7 +5,7 @@ const {
   registerUser,
   searching,
 } = require("../Controller/user-contoller");
-const { createMessage } = require("../Controller/message-controller");
+// const { createMessage } = require("../Controller/message-controller");
 const {
   createchats,
   fetchChats,
@@ -21,7 +21,7 @@ route.post("/login", protect, login);
 route.get("/", protect, searching);
 
 // messages
-route.post("/message", createMessage);
+// route.post("/message", createMessage);
 // Chats
 route.post("/chats", protect, createchats);
 route.get("/fetchChats", protect, fetchChats);

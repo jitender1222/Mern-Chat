@@ -23,9 +23,11 @@ app.use(express.json());
 
 // router
 const route = require("./Routes/userRoute");
+const messageRoute = require("./Routes/messageRoute");
 
 // routes
 app.use("/api/v1/user", route);
+app.use("/api/v1/message", messageRoute);
 
 // adding socket io
 
