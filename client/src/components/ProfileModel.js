@@ -4,9 +4,9 @@ import { getSenderFull } from "../config/getSender";
 
 const ProfileModel = () => {
   const { user, selectedChat, setSelectedChat } = ChatState();
-  console.log("users info info", user);
-  console.log("Model seletced chat", selectedChat);
-  console.log("Model seletced ", selectedChat?.users?.email);
+  // console.log("users info info", user);
+  // console.log("Model seletced chat", selectedChat);
+  // console.log("Model seletced ", selectedChat?.users?.email);
   const [userInfo, setUserInfo] = useState(false);
   const handleInfo = () => {
     setUserInfo(!userInfo);

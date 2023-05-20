@@ -11,7 +11,7 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [model, SetModel] = useState(false);
   // const modalRef = useRef();
-  console.log("inside the MYchat line 9", chats);
+  // console.log("inside the MYchat line 9", chats);
 
   // console.log("inside the MYchat line selected chat", selectedChat);
   // console.log("inside the MYchat line set selected chat", setSelectedChat);
@@ -39,7 +39,7 @@ const MyChats = ({ fetchAgain }) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchData();
-    console.log("inside user user", user);
+    // console.log("inside user user", user);
   }, [fetchAgain]);
 
   // useEffect(() => {
