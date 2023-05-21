@@ -4,13 +4,13 @@ import { ToastContainer, toast } from "react-toastify";
 import ChatLoading from "./ChatLoading";
 import UserListItem from "./UserListItem";
 import { ChatState } from "../context/ChatProvider";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function SearchUserComponent({ onClose }) {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { user, setSelectedChat, chats, setChats } = ChatState();
 
