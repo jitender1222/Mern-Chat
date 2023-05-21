@@ -9,7 +9,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [message, setMessage] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user, selectedChat } = ChatState();
   // console.log("single chat ", user);
   // console.log("single chat selected chat", selectedChat);
 
