@@ -1,3 +1,13 @@
+## Working ...
+
+Pending feature
+
+implement sockets for one to one and group chats
+
+socket for notification
+
+responsiveness
+
 ## Chat APP
 
 ![](./Assest/Screenshot%202023-04-13%20080917.png)
