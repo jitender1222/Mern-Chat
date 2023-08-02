@@ -1,12 +1,4 @@
-## Working ...
 
-Pending feature
-
-implement sockets for one to one and group chats
-
-socket for notification
-
-responsiveness
 
 ## Chat APP
 
